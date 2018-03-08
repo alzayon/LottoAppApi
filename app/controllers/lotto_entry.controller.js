@@ -36,6 +36,7 @@ var LottoEntryController = function(LottoEntry) {
     }//End of post
 
     var get = function(req, res) {
+
         //https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
         //https://stackoverflow.com/questions/24348437/mongoose-select-a-specific-field-with-find
         var query = {};
@@ -49,6 +50,14 @@ var LottoEntryController = function(LottoEntry) {
             let m = req.query.category;
             query.category = new RegExp(m, "i")
         }
+
+        query.winning = false;
+        if (req.query.winning) {
+            let m = req.query.winning;
+            query.winning = (m == 'true');
+        }
+
+
 
         LottoEntry.find(query, function(err, entries) {
             if (err) {
@@ -102,6 +111,8 @@ var LottoEntryController = function(LottoEntry) {
         req.lottoEntry.date = moment(Number(req.body.date)).format();
         req.lottoEntry.category = req.body.category;
         req.lottoEntry.entry = req.body.entry;
+        req.lottoEntry.winning = req.body.winning;
+        console.log(req.lottoEntry);
         req.lottoEntry.save(function(err) {
             if (err) {
                 res.status(500).send(err);

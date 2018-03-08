@@ -10,6 +10,9 @@ var LottoEntry = new Schema({
     },
     category: {
         type: String
+    },
+    winning: {
+        type: Boolean
     }
 });
 
